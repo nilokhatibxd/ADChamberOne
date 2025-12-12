@@ -32,9 +32,9 @@ export default function Website() {
   ]
 
   const searchSuggestions = [
-    'Help me get certified for sustainability',
-    'Connect me with potential partners', 
-    'Find me international opportunities'
+    'Start a business in Abu Dhabi',
+    'Grow my business operations', 
+    'Scale to international markets'
   ]
 
   const suggestionMappings = {
@@ -321,7 +321,7 @@ export default function Website() {
                 }}
                 transition={{ duration: 0.8 }}
               >
-                <h1 className="text-lg font-light text-white/80 mb-2 font-[family-name:var(--font-poppins)]">
+                <h1 className="text-2xl md:text-3xl font-light text-white mb-2 font-[family-name:var(--font-poppins)]">
                   Your gateway to Business Excellence in Abu Dhabi
                 </h1>
               </motion.div>
@@ -400,12 +400,12 @@ export default function Website() {
                       className="mt-6 text-center"
                     >
                       <p className="text-xs text-white/60 mb-4 font-[family-name:var(--font-poppins)]">Or choose:</p>
-                      <div className="flex flex-col sm:flex-row justify-center gap-3">
+                      <div className="max-w-2xl mx-auto space-y-3">
                         {searchSuggestions.map((suggestion, index) => (
                           <button
                             key={index}
                             onClick={() => handleSuggestionClick(suggestion)}
-                            className="px-5 py-2.5 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-full text-sm font-light transition-all font-[family-name:var(--font-poppins)] backdrop-blur-sm hover:scale-105"
+                            className="w-full px-5 py-3 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-full text-sm font-light transition-all font-[family-name:var(--font-poppins)] backdrop-blur-sm hover:scale-105"
                           >
                             {suggestion}
                           </button>
