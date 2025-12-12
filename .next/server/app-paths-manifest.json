@@ -1,3 +1,9 @@
 {
-  "/unified-portal/page": "app/unified-portal/page.js"
+  "/_not-found/page": "app/_not-found/page.js",
+  "/admin-portal/page": "app/admin-portal/page.js",
+  "/esg-application/page": "app/esg-application/page.js",
+  "/esg-chat/page": "app/esg-chat/page.js",
+  "/unified-portal/page": "app/unified-portal/page.js",
+  "/page": "app/page.js",
+  "/website-demo/page": "app/website-demo/page.js"
 }

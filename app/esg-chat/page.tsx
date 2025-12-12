@@ -539,10 +539,12 @@ const ApplicationCanvas = ({ data, onFieldEdit }: {
     documents: false
   })
   
+  const [documents, setDocuments] = useState<{name: string, status: string}[]>([])
+  
   const toggleSection = (section: string) => {
     setExpandedSections(prev => ({
       ...prev,
-      [section]: !prev[section]
+      [section]: !prev[section as keyof typeof prev]
     }))
   }
 
@@ -793,7 +795,30 @@ const ApplicationCanvas = ({ data, onFieldEdit }: {
         isExpanded={expandedSections.documents}
         onToggle={() => toggleSection('documents')}
       >
-        <DocumentUploadArea onUpload={(files) => console.log(files)} />
+        <div className="space-y-3">
+          {documents.map((doc, index) => (
+            <div key={index} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+              <FileText className="h-4 w-4 text-gray-500" />
+              <span className="text-sm flex-1">{doc.name}</span>
+              <span className="text-xs text-green-600 font-medium bg-green-50 px-2 py-1 rounded">
+                ✓ Verified
+              </span>
+              <button className="text-red-500 hover:text-red-700">
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+          ))}
+          {documents.length === 0 && (
+            <div className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center">
+              <Upload className="h-8 w-8 text-gray-400 mx-auto mb-3" />
+              <p className="text-sm text-gray-600">Drop files here or click to browse</p>
+              <p className="text-xs text-gray-500 mt-1">PDF, DOC, XLS up to 10MB</p>
+            </div>
+          )}
+          <p className="text-xs text-gray-500 mt-3">
+            * Documents will be verified by Abu Dhabi Chamber officials within 24-48 hours
+          </p>
+        </div>
       </AccordionSection>
     </motion.div>
   )
