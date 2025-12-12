@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --primary: 220 90% 56%; /* #3c7bf6 in HSL */
+    --primary-dark: 220 90% 45%;
+    --primary-light: 220 90% 97%;
+    --gradient-start: #3c7bf6;
+    --gradient-end: #2563eb;
+  }
+
+  body {
+    @apply bg-gray-50/50 text-gray-900 antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+@layer utilities {
+  /* Premium shadows like Lumin */
+  .shadow-card {
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.02), 
+                0 1px 10px -2px rgb(0 0 0 / 0.08);
+  }
+  
+  .shadow-card-hover {
+    box-shadow: 0 10px 40px -10px rgb(0 0 0 / 0.15), 
+                0 0 25px -5px rgb(0 0 0 / 0.07);
+  }
+
+  .shadow-button {
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  }
+
+  .shadow-button-hover {
+    box-shadow: 0 4px 12px -2px rgb(59 130 246 / 0.4);
+  }
+
+  /* Glass effect for premium cards */
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-xl;
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-[#3c7bf6] to-[#2563eb] bg-clip-text text-transparent;
+  }
+
+  /* Smooth transitions */
+  .transition-premium {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  /* Custom scrollbar */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    @apply bg-gray-100 rounded-full;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 rounded-full hover:bg-gray-400;
+  }
+
+  /* Animate on scroll */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+
+  /* Pulse for AI indicator */
+  @keyframes ai-pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  .animate-ai-pulse {
+    animation: ai-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  /* Premium border gradient */
+  .border-gradient {
+    background: linear-gradient(white, white) padding-box,
+                linear-gradient(135deg, #3c7bf6 0%, #2563eb 100%) border-box;
+    border: 1px solid transparent;
+  }
+}
