@@ -400,12 +400,12 @@ export default function Website() {
                       className="mt-6 text-center"
                     >
                       <p className="text-xs text-white/60 mb-4 font-[family-name:var(--font-poppins)]">Or choose:</p>
-                      <div className="max-w-2xl mx-auto space-y-3">
+                      <div className="max-w-2xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-3">
                         {searchSuggestions.map((suggestion, index) => (
                           <button
                             key={index}
                             onClick={() => handleSuggestionClick(suggestion)}
-                            className="w-full px-5 py-3 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-full text-sm font-light transition-all font-[family-name:var(--font-poppins)] backdrop-blur-sm hover:scale-105"
+                            className="px-5 py-3 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-full text-sm font-light transition-all font-[family-name:var(--font-poppins)] backdrop-blur-sm hover:scale-105"
                           >
                             {suggestion}
                           </button>
