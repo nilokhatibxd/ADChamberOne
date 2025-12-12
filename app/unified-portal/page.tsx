@@ -239,17 +239,29 @@ export default function UnifiedPortal() {
 
             {/* Center: Navigation - Desktop Only */}
             <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center space-x-8">
-              <button className="text-sm font-medium text-black hover:text-gray-600 transition-colors font-[family-name:var(--font-poppins)]">
-                Dashboard
+              <button 
+                onClick={() => router.push('/')}
+                className="text-sm font-normal text-gray-600 hover:text-black transition-colors font-[family-name:var(--font-poppins)]"
+              >
+                Website
               </button>
-              <button className="text-sm font-normal text-gray-600 hover:text-black transition-colors font-[family-name:var(--font-poppins)]">
-                Services
+              <button 
+                onClick={() => router.push('/unified-portal')}
+                className="text-sm font-medium text-black hover:text-gray-600 transition-colors font-[family-name:var(--font-poppins)]"
+              >
+                Unified Portal
               </button>
-              <button className="text-sm font-normal text-gray-600 hover:text-black transition-colors font-[family-name:var(--font-poppins)]">
-                Applications
+              <button 
+                onClick={() => router.push('/admin-panel')}
+                className="text-sm font-normal text-gray-600 hover:text-black transition-colors font-[family-name:var(--font-poppins)]"
+              >
+                Admin Panel
               </button>
-              <button className="text-sm font-normal text-gray-600 hover:text-black transition-colors font-[family-name:var(--font-poppins)]">
-                Payments
+              <button 
+                onClick={() => router.push('/leadership')}
+                className="text-sm font-normal text-gray-600 hover:text-black transition-colors font-[family-name:var(--font-poppins)]"
+              >
+                Leadership
               </button>
             </div>
 
@@ -334,17 +346,29 @@ export default function UnifiedPortal() {
               className="md:hidden bg-white border-b border-gray-100 overflow-hidden"
             >
               <div className="px-4 py-4 space-y-3">
-                <button className="block w-full text-left px-4 py-2 text-sm font-medium text-black hover:bg-gray-50 rounded-lg transition-colors font-[family-name:var(--font-poppins)]">
-                  Dashboard
+                <button 
+                  onClick={() => {router.push('/'); setShowMobileMenu(false)}}
+                  className="block w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-colors font-[family-name:var(--font-poppins)]"
+                >
+                  Website
                 </button>
-                <button className="block w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-colors font-[family-name:var(--font-poppins)]">
-                  Services
+                <button 
+                  onClick={() => {router.push('/unified-portal'); setShowMobileMenu(false)}}
+                  className="block w-full text-left px-4 py-2 text-sm font-medium text-black hover:bg-gray-50 rounded-lg transition-colors font-[family-name:var(--font-poppins)]"
+                >
+                  Unified Portal
                 </button>
-                <button className="block w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-colors font-[family-name:var(--font-poppins)]">
-                  Applications
+                <button 
+                  onClick={() => {router.push('/admin-panel'); setShowMobileMenu(false)}}
+                  className="block w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-colors font-[family-name:var(--font-poppins)]"
+                >
+                  Admin Panel
                 </button>
-                <button className="block w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-colors font-[family-name:var(--font-poppins)]">
-                  Payments
+                <button 
+                  onClick={() => {router.push('/leadership'); setShowMobileMenu(false)}}
+                  className="block w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-colors font-[family-name:var(--font-poppins)]"
+                >
+                  Leadership
                 </button>
                 <div className="pt-3 border-t border-gray-100">
                   <div className="flex items-center justify-center bg-gray-100 rounded-full p-1 mx-4">
@@ -1389,17 +1413,6 @@ export default function UnifiedPortal() {
         </div>
       </div>
 
-      {/* Floating AI Assistant */}
-      <motion.button
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className="fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-r from-[#3c7bf6] to-[#2563eb] rounded-2xl shadow-xl hover:shadow-2xl flex items-center justify-center group transition-all"
-      >
-        <Bot className="w-6 h-6 text-white" />
-        <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse" />
-      </motion.button>
     </div>
   )
 }
