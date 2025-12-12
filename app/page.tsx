@@ -17,7 +17,7 @@ export default function Website() {
   const [showMobileMenu, setShowMobileMenu] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [hasSearched, setHasSearched] = useState(false)
-  const [filteredServices, setFilteredServices] = useState([])
+  const [filteredServices, setFilteredServices] = useState<any[]>([])
   const [currentSuggestionIndex, setCurrentSuggestionIndex] = useState(0)
   const [displayText, setDisplayText] = useState('')
   const [isTyping, setIsTyping] = useState(true)
