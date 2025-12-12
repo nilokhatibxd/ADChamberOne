@@ -251,18 +251,6 @@ export default function UnifiedPortal() {
               >
                 Unified Portal
               </button>
-              <button 
-                onClick={() => router.push('/admin-panel')}
-                className="text-sm font-normal text-gray-600 hover:text-black transition-colors font-[family-name:var(--font-poppins)]"
-              >
-                Admin Panel
-              </button>
-              <button 
-                onClick={() => router.push('/leadership')}
-                className="text-sm font-normal text-gray-600 hover:text-black transition-colors font-[family-name:var(--font-poppins)]"
-              >
-                Leadership
-              </button>
             </div>
 
             {/* Right: Actions */}
@@ -357,18 +345,6 @@ export default function UnifiedPortal() {
                   className="block w-full text-left px-4 py-2 text-sm font-medium text-black hover:bg-gray-50 rounded-lg transition-colors font-[family-name:var(--font-poppins)]"
                 >
                   Unified Portal
-                </button>
-                <button 
-                  onClick={() => {router.push('/admin-panel'); setShowMobileMenu(false)}}
-                  className="block w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-colors font-[family-name:var(--font-poppins)]"
-                >
-                  Admin Panel
-                </button>
-                <button 
-                  onClick={() => {router.push('/leadership'); setShowMobileMenu(false)}}
-                  className="block w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-colors font-[family-name:var(--font-poppins)]"
-                >
-                  Leadership
                 </button>
                 <div className="pt-3 border-t border-gray-100">
                   <div className="flex items-center justify-center bg-gray-100 rounded-full p-1 mx-4">
