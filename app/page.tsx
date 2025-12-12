@@ -321,7 +321,7 @@ export default function Website() {
                 }}
                 transition={{ duration: 0.8 }}
               >
-                <h1 className="text-2xl md:text-3xl font-light text-white mb-2 font-[family-name:var(--font-poppins)]">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-white mb-2 font-[family-name:var(--font-poppins)]">
                   Your gateway to Business Excellence in Abu Dhabi
                 </h1>
               </motion.div>
