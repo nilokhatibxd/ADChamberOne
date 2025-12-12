@@ -22,13 +22,12 @@ export default function Website() {
   const [displayText, setDisplayText] = useState('')
   const [isTyping, setIsTyping] = useState(true)
   const [showPersonaDropdown, setShowPersonaDropdown] = useState(false)
-  const [selectedPersona, setSelectedPersona] = useState('I am a Company')
+  const [selectedPersona, setSelectedPersona] = useState('I am a Startup')
 
   const userPersonas = [
-    'I am a Company',
+    'I am a Startup',
     'I am a Local Business', 
-    'I am an International Business',
-    'I am an Entrepreneur'
+    'I am an International Business'
   ]
 
   const searchSuggestions = [

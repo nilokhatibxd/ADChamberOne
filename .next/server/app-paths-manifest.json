@@ -1,7 +1,6 @@
 {
-  "/unified-portal/page": "app/unified-portal/page.js",
   "/page": "app/page.js",
-  "/leadership/page": "app/leadership/page.js",
   "/admin-panel/page": "app/admin-panel/page.js",
-  "/esg-chat/page": "app/esg-chat/page.js"
+  "/leadership/page": "app/leadership/page.js",
+  "/unified-portal/page": "app/unified-portal/page.js"
 }
