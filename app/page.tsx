@@ -22,12 +22,13 @@ export default function Website() {
   const [displayText, setDisplayText] = useState('')
   const [isTyping, setIsTyping] = useState(true)
   const [showPersonaDropdown, setShowPersonaDropdown] = useState(false)
-  const [selectedPersona, setSelectedPersona] = useState('I am a Startup')
+  const [selectedPersona, setSelectedPersona] = useState('I am a Company')
 
   const userPersonas = [
-    'I am a Startup',
+    'I am a Company',
     'I am a Local Business', 
-    'I am an International Business'
+    'I am an International Business',
+    'I am an Entrepreneur'
   ]
 
   const searchSuggestions = [
@@ -335,63 +336,57 @@ export default function Website() {
               >
                 {/* Search Section */}
                 <div className="max-w-2xl mx-auto">
-                  {/* Combined Search Input with Persona Dropdown */}
-                  <div className="relative">
-                    <div className="flex bg-white rounded-full overflow-hidden">
-                      {/* Persona Dropdown */}
-                      <div className="relative">
-                        <button
-                          onClick={() => setShowPersonaDropdown(!showPersonaDropdown)}
-                          className="flex items-center px-6 py-4 text-gray-700 border-r border-gray-200 hover:bg-gray-50 transition-colors font-[family-name:var(--font-poppins)]"
+                  {/* User Persona Dropdown */}
+                  <div className="relative mb-4">
+                    <button
+                      onClick={() => setShowPersonaDropdown(!showPersonaDropdown)}
+                      className="w-full flex items-center justify-between px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-white hover:bg-white/20 transition-colors font-[family-name:var(--font-poppins)]"
+                    >
+                      <span className="text-sm">{selectedPersona}</span>
+                      <ChevronDown className="w-4 h-4 text-white/60" strokeWidth={1.5} />
+                    </button>
+                    
+                    <AnimatePresence>
+                      {showPersonaDropdown && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 10 }}
+                          className="absolute top-full left-0 mt-2 w-full bg-white rounded-xl shadow-xl border border-gray-200 py-2 z-50"
                         >
-                          <span className="text-sm">{selectedPersona}</span>
-                          <ChevronDown className="w-4 h-4 ml-2 text-gray-500" strokeWidth={1.5} />
-                        </button>
-                        
-                        <AnimatePresence>
-                          {showPersonaDropdown && (
-                            <motion.div
-                              initial={{ opacity: 0, y: 10 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={{ opacity: 0, y: 10 }}
-                              className="absolute top-full left-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-200 py-2 z-50"
+                          {userPersonas.map((persona) => (
+                            <button
+                              key={persona}
+                              onClick={() => {
+                                setSelectedPersona(persona)
+                                setShowPersonaDropdown(false)
+                              }}
+                              className="w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors font-[family-name:var(--font-poppins)]"
                             >
-                              {userPersonas.map((persona) => (
-                                <button
-                                  key={persona}
-                                  onClick={() => {
-                                    setSelectedPersona(persona)
-                                    setShowPersonaDropdown(false)
-                                  }}
-                                  className="w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors font-[family-name:var(--font-poppins)]"
-                                >
-                                  {persona}
-                                </button>
-                              ))}
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </div>
-                      
-                      {/* Search Input */}
-                      <div className="flex-1 relative">
-                        <input
-                          type="text"
-                          value={searchQuery}
-                          onChange={(e) => setSearchQuery(e.target.value)}
-                          placeholder={!searchQuery ? displayText + (isTyping ? '|' : '') : ''}
-                          className="w-full bg-transparent px-6 py-4 text-gray-700 placeholder-gray-400 outline-none font-[family-name:var(--font-poppins)]"
-                          onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                        />
-                      </div>
-                      
-                      <button 
-                        onClick={() => handleSearch()}
-                        className="flex-shrink-0 px-6 py-4 bg-gray-900 hover:bg-gray-800 transition-colors flex items-center justify-center"
-                      >
-                        <Search className="w-4 h-4 text-white" strokeWidth={1.5} />
-                      </button>
-                    </div>
+                              {persona}
+                            </button>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+
+                  {/* Search Input */}
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder={!searchQuery ? displayText + (isTyping ? '|' : '') : ''}
+                      className="w-full bg-white rounded-full px-6 py-4 pr-14 text-gray-700 placeholder-gray-400 outline-none font-[family-name:var(--font-poppins)]"
+                      onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                    />
+                    <button 
+                      onClick={() => handleSearch()}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-gray-900 rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
+                    >
+                      <Search className="w-4 h-4 text-white" strokeWidth={1.5} />
+                    </button>
                   </div>
                 </div>
 
