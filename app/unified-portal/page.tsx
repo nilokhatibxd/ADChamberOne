@@ -6,14 +6,89 @@ import {
   Search, Bell, Crown, Shield, Star, 
   Building2, FileText, CreditCard, BarChart3, CheckCircle2,
   TrendingUp, Users, Package, Bot, Edit2, LogOut, Sparkles, Plus, ArrowUpRight, Award,
-  User, Settings, UsersRound
+  User, Settings, UsersRound, ChevronLeft, ChevronRight, Calendar, MoreHorizontal, HeartHandshake, 
+  Briefcase, BookOpen, Globe, GraduationCap
 } from 'lucide-react'
-import { availableServicesData } from '@/lib/servicesData'
+import { chambersServices } from '@/lib/servicesFromScreenshot'
 
 type MembershipTier = 'Essential' | 'Elite' | 'Elite Plus'
 
+// AI Assistant Messages
+const aiMessages = [
+  "How can I help you apply for an ESG certificate today?",
+  "Need assistance with trade license renewal?",
+  "Looking for business matchmaking opportunities?",
+  "Want to explore our advisory services?",
+  "Ready to access market intelligence reports?",
+  "Interested in joining our upcoming trade missions?",
+  "How about scheduling a consultation with our experts?",
+  "Would you like to register for chamber events?"
+]
+
+// Animated AI Message Component
+function AnimatedAIMessage() {
+  const [currentMessageIndex, setCurrentMessageIndex] = useState(0)
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentMessageIndex((prev) => (prev + 1) % aiMessages.length)
+    }, 3000)
+    
+    return () => clearInterval(interval)
+  }, [])
+  
+  return (
+    <AnimatePresence mode="wait">
+      <motion.p
+        key={currentMessageIndex}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -10 }}
+        transition={{ duration: 0.3 }}
+        className="text-white text-sm font-[family-name:var(--font-poppins)]"
+      >
+        {aiMessages[currentMessageIndex]}
+      </motion.p>
+    </AnimatePresence>
+  )
+}
+
 function cn(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
+}
+
+// Function to get icon for each service
+function getServiceIcon(serviceName: string) {
+  const iconClass = "w-7 h-7 text-gray-600"
+  
+  switch(serviceName) {
+    case 'Business Development Services':
+      return <TrendingUp className={iconClass} strokeWidth={1.5} />
+    case 'Business Enablement Advisory':
+      return <Briefcase className={iconClass} strokeWidth={1.5} />
+    case 'Chamber Boost':
+      return <Sparkles className={iconClass} strokeWidth={1.5} />
+    case 'Chamber Business Matchmaking':
+      return <Users className={iconClass} strokeWidth={1.5} />
+    case 'Chamber ESG Label':
+      return <Award className={iconClass} strokeWidth={1.5} />
+    case 'Data Hub':
+      return <BarChart3 className={iconClass} strokeWidth={1.5} />
+    case 'Expert Library':
+      return <BookOpen className={iconClass} strokeWidth={1.5} />
+    case 'Flagship & Sectoral Reports':
+      return <FileText className={iconClass} strokeWidth={1.5} />
+    case 'Global Tenders Hub':
+      return <Globe className={iconClass} strokeWidth={1.5} />
+    case 'Market Directory':
+      return <Building2 className={iconClass} strokeWidth={1.5} />
+    case 'Policy Advocacy':
+      return <Shield className={iconClass} strokeWidth={1.5} />
+    case 'Upskilling Programs':
+      return <GraduationCap className={iconClass} strokeWidth={1.5} />
+    default:
+      return <FileText className={iconClass} strokeWidth={1.5} />
+  }
 }
 
 function AnimatedCounter({ value, duration = 1 }: { value: number; duration?: number }) {
@@ -63,6 +138,7 @@ export default function UnifiedPortal() {
   const [showUserMenu, setShowUserMenu] = useState(false)
   const [aiResponse, setAiResponse] = useState('')
   const [isAiTyping, setIsAiTyping] = useState(false)
+  const [carouselIndex, setCarouselIndex] = useState(0)
   const [animatedValues, setAnimatedValues] = useState({
     servicesUsed: 0,
     daysUntilRenewal: 0
@@ -90,9 +166,10 @@ export default function UnifiedPortal() {
     }
   }
 
-  const availableServices = availableServicesData.filter(
-    service => service.tiers.includes(currentTier)
-  )
+  // Use services from Kareem's prototype screenshot - EXACT ADCCI services
+  const availableServices = chambersServices
+    .filter(service => service.platform === 'ADC') // Only show ADC platform services
+    .slice(0, 12) // Show first 12 ADC services
 
   // Animate values on mount
   useEffect(() => {
@@ -137,11 +214,11 @@ export default function UnifiedPortal() {
           <div className="flex items-center justify-between h-20">
             {/* Left: Logo */}
             <div className="flex items-center">
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-[#3c7bf6] rounded-full flex items-center justify-center p-2">
-                  <img src="/logo.svg" alt="ADChamber Logo" className="w-6 h-6 brightness-0 invert" />
+              <div className="flex items-center space-x-4">
+                <div className="w-14 h-14 bg-[#3c7bf6] rounded-2xl flex items-center justify-center p-3">
+                  <img src="/logo.svg" alt="ADChamber Logo" className="w-8 h-8 brightness-0 invert" />
                 </div>
-                <span className="text-lg font-medium text-black font-[family-name:var(--font-poppins)]">ADChamber One</span>
+                <span className="text-2xl font-semibold text-black font-[family-name:var(--font-poppins)]">ADChamber One</span>
               </div>
             </div>
 
@@ -164,11 +241,14 @@ export default function UnifiedPortal() {
             {/* Right: Actions */}
             <div className="flex items-center space-x-3">
               {/* Language Switcher */}
-              <button className="flex items-center gap-1 px-3 py-2 border border-gray-300 rounded-full hover:border-gray-400 transition-colors">
-                <span className="text-sm font-medium text-gray-700">EN</span>
-                <span className="text-gray-400">|</span>
-                <span className="text-sm text-gray-500">عربي</span>
-              </button>
+              <div className="flex items-center bg-gray-100 rounded-full p-1">
+                <button className="px-3 py-1.5 text-xs font-medium bg-white text-gray-900 rounded-full shadow-sm font-[family-name:var(--font-poppins)] transition-all">
+                  EN
+                </button>
+                <button className="px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-gray-700 rounded-full font-[family-name:var(--font-poppins)] transition-all hover:bg-gray-50">
+                  عربي
+                </button>
+              </div>
 
               {/* Search */}
               <button className="w-12 h-12 border border-gray-300 rounded-full flex items-center justify-center hover:border-gray-400 transition-colors">
@@ -229,11 +309,11 @@ export default function UnifiedPortal() {
         </div>
       </nav>
 
-      {/* Hero Section with 4 Equal Columns */}
+      {/* Hero Section with 4 Equal Columns and 2 Rows */}
       <section className="px-6 pt-6">
         <div className="grid grid-cols-4 gap-5">
-          {/* Column 1: Vertical Black Banner with Blue Glow */}
-          <div className="relative bg-black rounded-[40px] overflow-hidden col-span-1">
+          {/* Column 1: Vertical Black Banner with Blue Glow - Spans 2 Rows */}
+          <div className="relative bg-black rounded-[40px] overflow-hidden col-span-1 row-span-2">
             {/* BRIGHT VIBRANT blue light leak from bottom */}
             <div className="absolute bottom-0 left-0 right-0 h-[35%] bg-gradient-to-t from-[#3c7bf6] via-[#3c7bf6]/70 to-transparent" />
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[200%] h-[40%] bg-[#3c7bf6] blur-[100px]" />
@@ -329,10 +409,10 @@ export default function UnifiedPortal() {
             </div>
           </div>
 
-            {/* Column 2 & 3: Active Applications Stack */}
+            {/* Column 2: Active Applications Stack */}
             <motion.div
               whileHover={{ y: -2 }}
-              className="bg-white rounded-[40px] p-6 transition-all border border-gray-100 col-span-2"
+              className="bg-white rounded-[40px] p-6 transition-all border border-gray-100 col-span-1 h-[280px]"
             >
               <div className="flex items-center justify-between mb-6">
                 <h3 className="font-medium text-gray-900 text-sm font-[family-name:var(--font-poppins)]">Active Applications (3)</h3>
@@ -392,13 +472,52 @@ export default function UnifiedPortal() {
             </motion.div>
 
 
-            {/* Column 4: Transaction History */}
+            {/* Column 3: Recommended for You */}
+            <div className="col-span-1">
+              <motion.div
+                whileHover={{ y: -2 }}
+                className="bg-white rounded-[40px] p-6 transition-all border border-gray-100 h-[280px]"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-sm font-medium text-gray-900 font-[family-name:var(--font-poppins)]">Recommended for You</h3>
+                  <div className="flex gap-2">
+                    <button className="w-7 h-7 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors">
+                      <ChevronLeft className="w-4 h-4 text-gray-500" strokeWidth={1.5} />
+                    </button>
+                    <button className="w-7 h-7 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors">
+                      <ChevronRight className="w-4 h-4 text-gray-500" strokeWidth={1.5} />
+                    </button>
+                  </div>
+                </div>
+                
+                {/* Event Card */}
+                <div className="bg-gradient-to-br from-blue-50 to-blue-100/50 rounded-2xl p-4 border border-blue-100">
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center">
+                      <Users className="w-5 h-5 text-white" strokeWidth={1.5} />
+                    </div>
+                    <span className="text-[10px] text-blue-600 bg-blue-100 px-2 py-1 rounded-full font-[family-name:var(--font-poppins)]">Networking</span>
+                  </div>
+                  <h4 className="text-sm font-medium text-gray-900 mb-2 font-[family-name:var(--font-poppins)]">Chamber Business Summit 2024</h4>
+                  <p className="text-xs text-gray-600 mb-3 font-[family-name:var(--font-poppins)]">Connect with industry leaders and explore new opportunities</p>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Calendar className="w-3.5 h-3.5 text-gray-500" strokeWidth={1.5} />
+                      <span className="text-xs text-gray-600 font-[family-name:var(--font-poppins)]">Dec 28, 2024</span>
+                    </div>
+                    <button className="text-xs text-blue-600 hover:text-blue-700 font-medium font-[family-name:var(--font-poppins)]">Register →</button>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Column 4: Transaction History - Spans 2 Rows */}
             <motion.div
               whileHover={{ y: -2 }}
-              className="bg-white rounded-[40px] p-5 transition-all border border-gray-100 flex flex-col col-span-1"
+              className="bg-white rounded-[40px] p-5 transition-all border border-gray-100 flex flex-col col-span-1 row-span-2"
             >
               <div className="flex items-center justify-between mb-3">
-                <h3 className="font-medium text-gray-900 text-sm font-[family-name:var(--font-poppins)]">Transactions</h3>
+                <h3 className="font-medium text-gray-900 text-sm font-[family-name:var(--font-poppins)]">Recent Transactions</h3>
                 <button className="w-12 h-12 rounded-full border border-gray-300 hover:border-gray-400 flex items-center justify-center transition-colors group">
                   <ArrowUpRight className="w-5 h-5 text-gray-600 group-hover:text-gray-800" strokeWidth={1.5} />
                 </button>
@@ -566,130 +685,168 @@ export default function UnifiedPortal() {
                 </div>
               </div>
             </motion.div>
+
+            {/* Second Row: Your Business Assistant */}
+            <div className="col-span-2 bg-white rounded-[40px] p-6 shadow-card border border-gray-100">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-sm font-medium text-gray-900 font-[family-name:var(--font-poppins)]">Your Business Assistant</h3>
+                <button className="w-12 h-12 rounded-full border border-gray-300 hover:border-gray-400 flex items-center justify-center transition-colors group">
+                  <ArrowUpRight className="w-5 h-5 text-gray-600 group-hover:text-gray-800" strokeWidth={1.5} />
+                </button>
+              </div>
+              
+              {/* Alert Banners */}
+              <div className="space-y-3 mb-4">
+                {/* ESG Certificate Alert */}
+                <div className="bg-gray-50 rounded-2xl p-4 border border-gray-200 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center">
+                      <FileText className="w-5 h-5 text-purple-600" strokeWidth={1.5} />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-900 font-[family-name:var(--font-poppins)]">Your ESG certificate is expiring in 5 days</p>
+                      <div className="flex items-center gap-3 mt-1">
+                        <span className="text-xs text-gray-500 font-[family-name:var(--font-poppins)]">Chamber ESG Label</span>
+                        <span className="text-xs text-gray-400">•</span>
+                        <span className="text-xs text-gray-500 font-[family-name:var(--font-poppins)]">Expires Dec 31</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button className="px-5 py-2 bg-gray-900 text-white rounded-full text-xs font-medium hover:bg-gray-800 transition-colors flex items-center gap-2 font-[family-name:var(--font-poppins)]">
+                    <CreditCard className="w-3.5 h-3.5" strokeWidth={1.5} />
+                    Renew • 500 AED
+                  </button>
+                </div>
+
+                {/* Trade Summit Alert */}
+                <div className="bg-gray-50 rounded-2xl p-4 border border-gray-200 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
+                      <Users className="w-5 h-5 text-blue-600" strokeWidth={1.5} />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-900 font-[family-name:var(--font-poppins)]">Abu Dhabi Trade Summit 2025 - Early bird discount</p>
+                      <div className="flex items-center gap-3 mt-1">
+                        <span className="text-xs text-gray-500 font-[family-name:var(--font-poppins)]">Networking Event</span>
+                        <span className="text-xs text-gray-400">•</span>
+                        <span className="text-xs text-gray-500 font-[family-name:var(--font-poppins)]">Jan 15, 2025</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button className="px-5 py-2 bg-white text-blue-600 border border-blue-600 rounded-full text-xs font-medium hover:bg-blue-50 transition-colors flex items-center gap-2 font-[family-name:var(--font-poppins)] whitespace-nowrap">
+                    <Calendar className="w-3.5 h-3.5" strokeWidth={1.5} />
+                    Register
+                  </button>
+                </div>
+              </div>
+              
+              {/* Chat Input */}
+              <div className="flex items-center gap-2">
+                <div className="flex-1 bg-gray-50 rounded-full px-4 py-3 flex items-center gap-3 border border-gray-200">
+                  <input
+                    type="text"
+                    placeholder="I'm looking to grow my business internationally..."
+                    className="bg-transparent text-gray-700 placeholder-gray-400 text-sm flex-1 outline-none font-[family-name:var(--font-poppins)]"
+                  />
+                  <button className="w-8 h-8 bg-gray-900 rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors">
+                    <ArrowUpRight className="w-4 h-4 text-white" strokeWidth={2} />
+                  </button>
+                </div>
+              </div>
+            </div>
         </div>
       </section>
 
-      {/* Main Content in Boxed Container */}
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        
-        {/* Stats Cards Row - 4 columns */}
-        <div className="grid grid-cols-4 gap-4 mb-8">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-2xl p-5 border border-gray-100 hover:shadow-lg transition-all cursor-pointer"
-          >
-            <div className="flex items-center justify-between mb-3">
-              <p className="text-xs text-gray-600">Available Services</p>
-              <Building2 className="w-4 h-4 text-[#3c7bf6]" />
-            </div>
-            <p className="text-2xl font-light font-[family-name:var(--font-poppins)]">
-              <AnimatedCounter value={availableServices.length} />
-            </p>
-            <p className="text-xs text-gray-500 mt-1">+3 this month</p>
-          </motion.div>
-
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="bg-white rounded-2xl p-5 border border-gray-100 hover:shadow-lg transition-all cursor-pointer"
-          >
-            <div className="flex items-center justify-between mb-3">
-              <p className="text-xs text-gray-600">Pending</p>
-              <FileText className="w-4 h-4 text-orange-500" />
-            </div>
-            <p className="text-2xl font-light font-[family-name:var(--font-poppins)]">
-              <AnimatedCounter value={3} />
-            </p>
-            <p className="text-xs text-gray-500 mt-1">2 require action</p>
-          </motion.div>
-
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="bg-white rounded-2xl p-5 border border-gray-100 hover:shadow-lg transition-all cursor-pointer"
-          >
-            <div className="flex items-center justify-between mb-3">
-              <p className="text-xs text-gray-600">Completed</p>
-              <CheckCircle2 className="w-4 h-4 text-green-500" />
-            </div>
-            <p className="text-2xl font-light font-[family-name:var(--font-poppins)]">
-              <AnimatedCounter value={47} />
-            </p>
-            <p className="text-xs text-gray-500 mt-1">This year</p>
-          </motion.div>
-
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="bg-white rounded-2xl p-5 border border-gray-100 hover:shadow-lg transition-all cursor-pointer"
-          >
-            <div className="flex items-center justify-between mb-3">
-              <p className="text-xs text-gray-600">Savings</p>
-              <TrendingUp className="w-4 h-4 text-purple-500" />
-            </div>
-            <p className="text-2xl font-light font-[family-name:var(--font-poppins)]">
-              AED <AnimatedCounter value={8542} />
-            </p>
-            <p className="text-xs text-gray-500 mt-1">With discounts</p>
-          </motion.div>
-        </div>
-
-        {/* Services Grid - 4 Columns */}
+      {/* Services Section - Full Width */}
+      <div className="px-6 py-8">
         <div className="mb-6">
-          <h3 className="text-lg font-medium mb-4 font-[family-name:var(--font-poppins)]">
-            Available Services ({availableServices.length})
+          <h3 className="text-sm font-medium text-gray-900 font-[family-name:var(--font-poppins)] mb-1">
+            Services Tailored for You
           </h3>
+          <p className="text-2xl font-medium text-gray-900 font-[family-name:var(--font-poppins)]">
+            Accelerate Your Business Growth
+          </p>
         </div>
 
-        <motion.div 
-          className="grid grid-cols-4 gap-4"
-          initial="hidden"
-          animate="visible"
-          variants={{
-            visible: {
-              transition: { staggerChildren: 0.05 }
-            }
-          }}
-        >
-          {availableServices.map((service) => (
-            <motion.div
-              key={service.id}
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: { opacity: 1, y: 0 }
-              }}
-              className="group bg-white border border-gray-100 rounded-xl p-4 hover:shadow-xl hover:scale-[1.02] transition-all cursor-pointer"
+        {/* Services Carousel */}
+        <div className="relative">
+          {/* Left Arrow */}
+          <button 
+            onClick={() => setCarouselIndex(Math.max(0, carouselIndex - 5))}
+            className={`absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white rounded-full shadow-lg border border-gray-200 flex items-center justify-center hover:border-gray-400 transition-all ${carouselIndex === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+            disabled={carouselIndex === 0}
+          >
+            <ChevronLeft className="w-6 h-6 text-gray-600" strokeWidth={1.5} />
+          </button>
+
+          {/* Right Arrow */}
+          <button 
+            onClick={() => setCarouselIndex(Math.min(availableServices.length - 5, carouselIndex + 5))}
+            className={`absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white rounded-full shadow-lg border border-gray-200 flex items-center justify-center hover:border-gray-400 transition-all ${carouselIndex >= availableServices.length - 5 ? 'opacity-50 cursor-not-allowed' : ''}`}
+            disabled={carouselIndex >= availableServices.length - 5}
+          >
+            <ChevronRight className="w-6 h-6 text-gray-600" strokeWidth={1.5} />
+          </button>
+
+          {/* Carousel Container */}
+          <div className="overflow-hidden px-14">
+            <motion.div 
+              className="flex gap-4"
+              animate={{ x: -carouselIndex * 252 }} // card width + gap
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
             >
-              <div className="flex items-start justify-between mb-3">
-                <div className={cn(
-                  "w-9 h-9 rounded-lg flex items-center justify-center",
-                  service.color
-                )}>
-                  <service.icon className="w-4 h-4 text-white" strokeWidth={1.5} />
-                </div>
-                {service.isPopular && (
-                  <span className="px-2 py-0.5 bg-orange-100 text-orange-600 text-[9px] rounded-full font-medium">
-                    Popular
-                  </span>
-                )}
-              </div>
-              <h4 className="font-medium text-xs text-gray-900 mb-1 line-clamp-2 font-[family-name:var(--font-poppins)]">
-                {service.name}
-              </h4>
-              <p className="text-[10px] text-gray-500 mb-3 line-clamp-2">{service.description}</p>
-              <div className="flex items-center justify-between">
-                <span className="text-[10px] text-gray-400">{service.processingTime}</span>
-                <button className="text-[10px] text-[#3c7bf6] font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-                  Apply →
-                </button>
-              </div>
+              {availableServices.map((service, index) => {
+                const isNew = index === 0 || index === 4 || index === 8;
+                return (
+                  <div
+                    key={service.id}
+                    className="group bg-white border border-gray-100 rounded-[24px] p-6 hover:shadow-xl hover:border-gray-200 transition-all cursor-pointer flex flex-col h-[320px] min-w-[240px] w-[240px]"
+                  >
+                    {/* Top Section with Icon and Arrow */}
+                    <div className="flex items-start justify-between mb-6">
+                      <div className="w-14 h-14 bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl flex items-center justify-center">
+                        {getServiceIcon(service.name)}
+                      </div>
+                      <button className="w-10 h-10 rounded-full border border-gray-300 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all hover:border-gray-400">
+                        <ArrowUpRight className="w-4 h-4 text-gray-600" strokeWidth={1.5} />
+                      </button>
+                    </div>
+
+                    {/* Title and Description */}
+                    <div className="flex-1 flex flex-col">
+                      <h4 className="font-medium text-base text-gray-900 mb-3 line-clamp-2 font-[family-name:var(--font-poppins)]">
+                        {service.name}
+                      </h4>
+                      <p className="text-sm text-gray-500 line-clamp-3 font-[family-name:var(--font-poppins)]">
+                        {service.description}
+                      </p>
+                    </div>
+
+                    {/* Bottom Section with Timeline */}
+                    <div className="pt-4 mt-4 border-t border-gray-100">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" strokeWidth="1.5"/>
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 6v6l4 2"/>
+                          </svg>
+                          <span className="text-sm text-gray-500 font-[family-name:var(--font-poppins)]">
+                            {service.processingTime}
+                          </span>
+                        </div>
+                        {(service.isNew || isNew) && (
+                          <span className="inline-flex px-2.5 py-1 bg-green-50 text-green-600 text-[10px] rounded-full font-medium border border-green-100">
+                            New
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </motion.div>
-          ))}
-        </motion.div>
+          </div>
+        </div>
       </div>
 
       {/* Floating AI Assistant */}
